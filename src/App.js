@@ -1,36 +1,33 @@
-import { useState } from "react";
+import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 import AllMeetupsPage from "./pages/AllMeetupsPage";
 import FavoritesPage from "./pages/Favorites";
 import NewMeetupsPage from "./pages/NewMeetup";
-import {
-  ALL_MEETUP_PAGE,
-} from "./utils/constants";
-
 import MainNavigation from "./components/layout/MainNavigation";
 import Layout from "./components/layout/Layout";
 
-function App() {
-  const [page, setPage] = useState(ALL_MEETUP_PAGE);
-
-  function getCurrentPageComponent() {
-    return (
-      <Router>
-        <Switch>
-          <Route path="/" exact component={AllMeetupsPage} />
-          <Route path="/favorites" exact component={FavoritesPage} />
-          <Route path="/newMeetup" exact component={NewMeetupsPage} />
-        </Switch>
-      </Router>
+class App extends Component {
+  render() {
+    let content = null;
+    content = (
+      <React.Fragment>
+        <div>
+          <Router>
+            <MainNavigation />
+            <Layout />
+            <Switch>
+              <Route path="/" exact component={AllMeetupsPage} />
+              <Route path="/newMeetup" exact component={NewMeetupsPage} />
+              <Route path="/favorites" exact component={FavoritesPage} />
+            </Switch>
+          </Router>
+        </div>
+      </React.Fragment>
     );
+    return content;
   }
-
-  return (
-    <div data-test="app">
-      <MainNavigation setPage={setPage} />
-      <Layout>{getCurrentPageComponent()}</Layout>
-    </div>
-  );
 }
 
-export default App;
+const mapStateToProps = (state) => ({});
+export default connect(mapStateToProps)(App);
